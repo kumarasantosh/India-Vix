@@ -37,7 +37,9 @@ export async function GET(request: NextRequest) {
         const nseData = await nseRes.json();
         if (nseData && nseData.data) {
           const niftySpot = nseData.underlyingValue || null;
-          let capturedAt = new Date().toISOString();
+          const now = new Date();
+          now.setSeconds(0, 0);
+          let capturedAt = now.toISOString();
           
           if (nseData.timestamp) {
             const [datePart, timePart] = nseData.timestamp.split(' ');
@@ -45,7 +47,7 @@ export async function GET(request: NextRequest) {
               const [day, month, year] = datePart.split('-');
               const monthMap: Record<string, string> = { 'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12' };
               if (monthMap[month] && day && year) {
-                capturedAt = `${year}-${monthMap[month]}-${day}T${timePart}+05:30`;
+                capturedAt = `${year}-${monthMap[month]}-${day}T${timePart.substring(0, 5)}:00+05:30`;
               }
             }
           }
@@ -120,7 +122,18 @@ export async function GET(request: NextRequest) {
     }
 
     // Compute Vega for each snapshot
-    const snapshots = chainData as OptionChainSnapshot[];
+    const rawSnapshots = chainData as OptionChainSnapshot[];
+    const snapshots = [];
+    const seenMinutes = new Set();
+    
+    for (const snap of rawSnapshots) {
+      const minuteKey = new Date(snap.captured_at).toISOString().substring(0, 16);
+      if (!seenMinutes.has(minuteKey)) {
+        seenMinutes.add(minuteKey);
+        snapshots.push(snap);
+      }
+    }
+
     const computedData = [];
 
     // Track history for signal generation
