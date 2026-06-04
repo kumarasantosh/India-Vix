@@ -56,23 +56,17 @@ export default function VegaDashboard() {
           {/* Logo placeholder - using text to mimic image */}
           <div className="text-[#16a34a] font-black text-2xl tracking-tighter flex items-center gap-2">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19.93C7.05 19.43 4 16.05 4 12C4 7.95 7.05 4.57 11 4.07V19.93ZM13 4.07C16.95 4.57 20 7.95 20 12C20 16.05 16.95 19.43 13 19.93V4.07Z" fill="currentColor"/>
+              <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19.93C7.05 19.43 4 16.05 4 12C4 7.95 7.05 4.57 11 4.07V19.93ZM13 4.07C16.95 4.57 20 7.95 20 12C20 16.05 16.95 19.43 13 19.93V4.07Z" fill="currentColor" />
             </svg>
-            Alpha Edge
+            Vega Dashboard
           </div>
-        </div>
-        <div className="hidden md:flex items-center gap-6 text-sm font-semibold text-gray-700">
-          <a href="#" className="hover:text-black">Chart</a>
-          <a href="#" className="hover:text-black">My Account</a>
-          <a href="#" className="hover:text-black">Logout</a>
-          <a href="#" className="hover:text-black">Contact Us</a>
         </div>
       </nav>
 
       <div className="p-4 md:p-6 w-full max-w-[1600px] mx-auto">
         {/* Symbol Selection (added this below nav since original design was for 1 symbol) */}
         <div className="mb-6 flex items-center justify-end">
-           <SymbolSelector
+          <SymbolSelector
             symbols={SYMBOLS}
             activeSymbol={symbol}
             onSelect={setSymbol}
@@ -81,7 +75,7 @@ export default function VegaDashboard() {
 
         {/* 2-Column Main Layout */}
         <div className="flex flex-col lg:flex-row gap-6">
-          
+
           {/* Left Column (70%) */}
           <div className="w-full lg:w-[70%] flex flex-col gap-6">
             {/* Expiry Header */}
